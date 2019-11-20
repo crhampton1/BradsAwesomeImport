@@ -1,6 +1,6 @@
 {
   "name": "BradsAwesomeImport",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Import for Brad - FIS Data to BrickRiver",
   "main": "main.js",
   "repository": "https://github.com/crhampton1/BradsAwesomeImport.git",
@@ -10,20 +10,28 @@
   "scripts": {
     "start": "electron .",
     "pack": "electron-builder --dir -mw",
-    "dist": "yarn compile && electron-builder -mw"
+    "dist": "electron-builder -mw",
+    "release": "electron-builder -mw -p always"
+  },
+  "devDependencies": {
+    "electron": "^7.1.1",
+    "electron-builder": "^22.2.0"
   },
   "build": {
     "appId": "CRH",
     "mac": {
       "category": "Productivity"
+    },
+    "win": {
+      "publish": [
+        "github"
+      ]
     }
   },
   "dependencies": {
     "bootstrap": "^4.3.1",
     "convert-array-to-csv": "^1.0.9",
     "convert-excel-to-json": "^1.6.1",
-    "electron": "^7.1.2",
-    "electron-builder": "^21.2.0",
     "electron-log": "^3.0.9",
     "electron-updater": "^4.2.0",
     "jquery": "^3.4.1",
