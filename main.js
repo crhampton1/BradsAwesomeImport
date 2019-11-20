@@ -102,8 +102,9 @@ async function DoTheExcelFunction(pathName) {
     var i = 0;
     
 
+  
 
-    for await (eachField of JsonConverted.ReportData){
+    for await (eachField of JsonConverted.Sheet1){
       var newObject = {
         Church: '',
         Organizations: '',
@@ -115,17 +116,20 @@ async function DoTheExcelFunction(pathName) {
         InvestmentType: eachField.InvestmentType
       }
       
+      var addOrNot = true;
 
-      if(eachField.Id.includes('C')){
-        newObject.Church = eachField.Id.substring(0, eachField.Id.length -1) 
-      } else if (eachField.Id.includes('O')){
-        newObject.Organizations = eachField.Id.substring(0, eachField.Id.length -1) 
-      } else if (eachField.Id.includes('I')){
+      if(eachField.Id.substring(eachField.Id.length -1).toUpperCase() == "C"){
+        newObject.Church = eachField.Id.substring(0, eachField.Id.length -1);
+        
+      } else if (eachField.Id.substring(eachField.Id.length -1).toUpperCase() == "O"){
+        newObject.Organizations = eachField.Id.substring(0, eachField.Id.length -1);
+        
+      } else if (eachField.Id.substring(eachField.Id.length -1).toUpperCase() == "I"){
         newObject.People = eachField.Id.substring(0, eachField.Id.length -1) 
       } else {
         
-        log.error("Missing C - O - I");
-        throw new Error('Missing C - O - I');
+        log.error("Missing C - O - I - ID: " + eachField.Id);
+        addOrNot = false;
       }
 
       if((eachField.AccountLongName2 != null && eachField.AccountLongName3 != null) || (eachField.AccountLongName2 != undefined && eachField.AccountLongName3 != undefined)){
@@ -135,8 +139,11 @@ async function DoTheExcelFunction(pathName) {
       } else {
         newObject.AccountLongName = eachField.AccountLongName
       }
+
+      if(addOrNot){
+        data2.push(newObject);
+      }
       
-      data2.push(newObject)
     }
    
    
