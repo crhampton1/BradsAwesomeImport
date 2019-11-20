@@ -20,8 +20,8 @@ const requestsPromise = util.promisify(request.post)
 function createWindow () {
 
   win = new BrowserWindow({
-    width: 350,
-    height: 200,
+    width: 500,
+    height: 300,
     webPreferences: {
       nodeIntegration: true
     }
@@ -32,7 +32,7 @@ function createWindow () {
   win.loadFile(htmlPath)
 
 
-  win.webContents.openDevTools()
+  //win.webContents.openDevTools()
 
 
   win.on('closed', () => {

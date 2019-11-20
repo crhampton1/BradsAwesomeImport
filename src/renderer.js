@@ -20,8 +20,9 @@ const submitListner = document
 
     ipcRenderer.on('metadata', (event, response) => {
         const pre = document.getElementById('data')
-
-       pre.innerText = response[0].body.replace('<jobId>') 
+        var successCode = response[0].body.replace('<jobId>', "")
+        successCode = successCode.replace("</jobId>", "")
+        pre.innerText =  "Done! Code from BR: " + successCode
         log.info(response[0].body)
     })
 
