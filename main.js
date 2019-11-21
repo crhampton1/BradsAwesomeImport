@@ -100,11 +100,13 @@ async function DoTheExcelFunction(pathName) {
     var data2 = []
    
     var i = 0;
-    
+    var bad = 0;
+    total = 0;
 
   
 
     for await (eachField of JsonConverted.Sheet1){
+      total++;
       var newObject = {
         Church: '',
         Organizations: '',
@@ -117,20 +119,32 @@ async function DoTheExcelFunction(pathName) {
       }
       
       var addOrNot = true;
+      regex = new RegExp("[0-9]+");
 
-      if(eachField.Id.substring(eachField.Id.length -1).toUpperCase() == "C"){
-        newObject.Church = eachField.Id.substring(0, eachField.Id.length -1);
-        
-      } else if (eachField.Id.substring(eachField.Id.length -1).toUpperCase() == "O"){
-        newObject.Organizations = eachField.Id.substring(0, eachField.Id.length -1);
-        
-      } else if (eachField.Id.substring(eachField.Id.length -1).toUpperCase() == "I"){
-        newObject.People = eachField.Id.substring(0, eachField.Id.length -1) 
+      if(eachField.Id != '' && eachField.Id != undefined && eachField.Id.length > 0 && regex.test(eachField.Id)){
+        if(eachField.Id.substring(eachField.Id.length -1).toUpperCase() == "C"){
+          newObject.Church = eachField.Id.substring(0, eachField.Id.length -1);
+          
+          
+        } else if (eachField.Id.substring(eachField.Id.length -1).toUpperCase() == "O"){
+          newObject.Organizations = eachField.Id.substring(0, eachField.Id.length -1);
+      
+          
+        } else if (eachField.Id.substring(eachField.Id.length -1).toUpperCase() == "I"){
+          newObject.People = eachField.Id.substring(0, eachField.Id.length -1) 
+    
+        } else {
+          
+          log.error("Missing C - O - I - ID: " + eachField.Id);
+          addOrNot = false;
+          bad++;
+        }
       } else {
-        
         log.error("Missing C - O - I - ID: " + eachField.Id);
-        addOrNot = false;
+          addOrNot = false;
+          bad++;
       }
+        
 
       if((eachField.AccountLongName2 != null && eachField.AccountLongName3 != null) || (eachField.AccountLongName2 != undefined && eachField.AccountLongName3 != undefined)){
         newObject.AccountLongName = eachField.AccountLongName + ' ' + eachField.AccountLongName2 + ' ' + eachField.AccountLongName3
@@ -145,8 +159,11 @@ async function DoTheExcelFunction(pathName) {
       }
       
     }
-   
-   
+    
+    log.info("Total: " + total);
+    log.info("Array Length: " + data2.length);
+    log.info("Bad: " + bad);
+    
     const csvFromArrayOfObjects = await convertArrayToCSV(data2);
   
     var buf = Buffer.from(csvFromArrayOfObjects, 'utf8')
@@ -165,11 +182,13 @@ async function DoTheExcelFunction(pathName) {
    
     const response = await requestsPromise({url:'https://wnc-data.brtapp.com/import/31f96c453b2948a195c984a98fb7f302/foundationaccounts.csv', formData: formData})
     
+   
 
+  
     return response
 
   } catch (error) {
     win.webContents.send('metadata:error', error)
-    log.error(error)
+    //log.error(error)
   }
 } 

@@ -14,16 +14,16 @@ const submitListner = document
             name,
             pathName
         }))
-        log.log(filesFormated)
+        //log.log(filesFormated)
         ipcRenderer.send('files', filesFormated)
     })
 
     ipcRenderer.on('metadata', (event, response) => {
         const pre = document.getElementById('data')
-        var successCode = response[0].body.replace('<jobId>', "")
-        successCode = successCode.replace("</jobId>", "")
-        pre.innerText =  "Done! Code from BR: " + successCode
-        log.info(response[0].body)
+         var successCode = response[0].body.replace('<jobId>', "")
+         successCode = successCode.replace("</jobId>", "")
+         pre.innerText =  "Done! Code from BR: " + successCode
+         log.info(response[0].body)
     })
 
     ipcRenderer.on('metadata:error', (event, error) => {
