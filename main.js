@@ -113,6 +113,7 @@ async function DoTheExcelFunction(pathName) {
         People: '',
         Title: eachField.Title,
         AccountLongName: '',
+        AccountNumber: eachField.AccountNumber,
         CurrentValue: eachField.CurrentValue,	
         LastYearValue: eachField.LastYearValue,
         InvestmentType: eachField.InvestmentType
@@ -163,7 +164,7 @@ async function DoTheExcelFunction(pathName) {
     log.info("Total: " + total);
     log.info("Array Length: " + data2.length);
     log.info("Bad: " + bad);
-    
+     
     const csvFromArrayOfObjects = await convertArrayToCSV(data2);
   
     var buf = Buffer.from(csvFromArrayOfObjects, 'utf8')

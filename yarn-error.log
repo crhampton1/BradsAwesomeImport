@@ -29,7 +29,7 @@ Trace:
 npm manifest: 
   {
     "name": "BradsAwesomeImport",
-    "version": "1.0.2",
+    "version": "1.1.5",
     "description": "Import for Brad - FIS Data to BrickRiver",
     "main": "main.js",
     "repository": "https://github.com/crhampton1/BradsAwesomeImport.git",
@@ -40,7 +40,7 @@ npm manifest:
       "start": "electron .",
       "pack": "electron-builder --dir -mw",
       "dist": "electron-builder -mw",
-      "publish": "electron-builder -mw -p always"
+      "release": "GH_TOKEN=d0c60fe7250cbe693b297089ca7e97bcb5ba09ec electron-builder -mw -p always"
     },
     "devDependencies": {
       "electron": "^7.1.1",
