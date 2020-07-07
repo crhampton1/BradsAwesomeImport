@@ -14,7 +14,7 @@
     "release": "GH_TOKEN=eaa81a2a9b86c497fc94ed64922c08da70c34e91 electron-builder -mw -p always"
   },
   "devDependencies": {
-    "electron": "^7.1.1",
+    "electron": "^7.2.4",
     "electron-builder": "^22.2.0"
   },
   "build": {
